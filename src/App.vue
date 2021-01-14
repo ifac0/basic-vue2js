@@ -1,28 +1,58 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <h1
+      :style="{ color }">
+      Hello {{name}}
+    </h1>
+    <input 
+      type="text" 
+      v-model="name">
+    <button 
+      @click="handleClick">
+      Alert!
+    </button>
+    <h1>My List</h1>
+    <input
+      @keyup.enter="addFood" 
+      type="text" 
+      v-model="currentFood" >
+    <button 
+      @click="addFood">
+      add
+    </button>
+
+    <food-list 
+      @stop="handleStop"
+      :foods="foods"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import FoodList from './components/FoodList'
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+  components: { FoodList },
+  data: () => ({
+      name: 'Ivan',
+      color: 'tomato',
+      foods: ['Maçã', 'Pera'],
+      currentFood: ''
+  }),
+  methods: {
+    handleClick() {
+      window.alert('Clicado!')
+    },
+    addFood() {
+      this.foods.push(this.currentFood)
+      this.currentFood = ''
+    },
+    handleStop(event) {
+      window.alert('Ta Cheio => ' + event);
+    }
+  },
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
